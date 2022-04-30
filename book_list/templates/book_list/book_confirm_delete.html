@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+<div class="container">
+    <h3> Are you sure you want to remove "{{ book.title }}" from list ?</h3>
+    <br>
+    <form class="form-control" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button class="btn btn-dark" onclick="location.href='{% url 'book_list:edit' book.id %}'" type="button">No</button>
+        <input class="btn btn-dark" type="submit" value="Yes">
+    </form>
+</div>
+</body>
+{% endblock %}

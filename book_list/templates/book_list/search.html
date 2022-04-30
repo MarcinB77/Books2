@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+<div class="container">
+    <h3>Search</h3>
+    <form class="form-control" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+        </div>
+        {{field}}
+        {{ field.errors }}
+
+        {% endfor %}
+        <input class="btn btn-dark" type="submit" value="Search">
+    </form>
+</div>
+<br>
+<div class="container">
+    {% if results %}
+    <h3> Search Results:</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Publication Date</td>
+            <td>ISBN</td>
+            <td>Add to List</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in results.items %}
+            {% if item.volumeInfo.industryIdentifiers.0.type == "ISBN_10" or item.volumeInfo.industryIdentifiers.0.type == "ISBN_13"%}
+            <tr>
+                <td>{{ item.volumeInfo.title }}</td>
+                <td>{{ item.volumeInfo.authors }}</td>
+                <td>{{ item.volumeInfo.publishedDate }}</td>
+                <td>{{ item.volumeInfo.industryIdentifiers.0.identifier }}</td>
+                <td><a href="{% url 'book_list:add_from_google' item.volumeInfo.industryIdentifiers.0.identifier %}">Add</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+</body>
+{% endblock %}

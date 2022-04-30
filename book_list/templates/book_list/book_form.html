@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+<div class="container">
+    {% if book %}
+    <h2>Edit / Delete</h2>
+    {% else %}
+    <h3>Add</h3>
+    {% endif %}
+
+    <form class="form-control" method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+        </div>
+        {{field}}
+        {{ field.errors }}
+
+        {% endfor %}
+        {% if book %}
+        <input type="submit" value="Edit" class="btn btn-dark">
+        <button class="btn btn-dark" onclick="location.href='{% url 'book_list:delete' book.id %}'" type="button">Delete</button>
+        {% else %}
+        <input  class="btn btn-dark" type="submit" value="Add">
+        {% endif %}
+    </form>
+</div>
+</body>
+{% endblock %}

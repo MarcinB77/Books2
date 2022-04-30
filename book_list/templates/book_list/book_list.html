@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div style="margin: 20px;">
+
+    <table id="dataTable" class="display dataTable cell-border" style="width:100%">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>ISBN</th>
+            <th>Pages</th>
+            <th>Cover</th>
+            <th>Language</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in book_list %}
+        <tr>
+            <td><a href=" {% url 'book_list:detail' book.id %}">{{ book.title }}</a></td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.pub_date }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.pages }}</td>
+            <td>{% if book.cover_link %} <a href=" {{ book.cover_link }} "><img href="{{ book.cover_link }}" src="{{ book.cover_link }}"> </a> {%endif %}</td>
+            <td>{{ book.language }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

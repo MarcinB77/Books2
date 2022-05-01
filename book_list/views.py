@@ -17,7 +17,7 @@ from .serializers import BookSerializer
 
 from decouple import config
 
-API_KEY = 'AIzaSyANbUqXjzsTqex47eDsfl7HffOIO84cv94'
+API_KEY = config('API_KEY')
 
 
 # Create your views here.

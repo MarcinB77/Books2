@@ -17,7 +17,7 @@ from .serializers import BookSerializer
 
 from decouple import config
 
-API_KEY = config('API_KEY')
+API_KEY = 'AIzaSyANbUqXjzsTqex47eDsfl7HffOIO84cv94'
 
 
 # Create your views here.
@@ -147,7 +147,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
-def api_overview():
+def api_overview(request):
     api_urls = {
         'List': '/book-list',
         'Detail View': '/book-detail/<int:pk>',
@@ -159,7 +159,7 @@ def api_overview():
 
 
 @api_view(['GET'])
-def book_detail(pk):
+def book_detail(request, pk):
     book = Book.objects.get(id=pk)
     serializer = BookSerializer(book, many=False)
 
@@ -176,7 +176,7 @@ def book_create(request):
     return Response(serializer.data)
 
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def book_update(request, pk):
     book = Book.objects.get(id=pk)
     serializer = BookSerializer(instance=book, data=request.data)
@@ -187,7 +187,7 @@ def book_update(request, pk):
     return Response(serializer.data)
 
 
-@api_view(['DELETE', 'GET'])
+@api_view(['DELETE'])
 def book_delete(pk):
     book = Book.objects.get(id=pk)
     book.delete()
